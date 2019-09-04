@@ -1,5 +1,6 @@
 package com.codepath.bledstagram;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -20,6 +23,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUserName;
     private EditText etPassword;
     private Button btnLogin;
+    private TextView tvSignUp;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         etUserName = findViewById(R.id.etUserName);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        tvSignUp = findViewById(R.id.tvSignUp);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,6 +44,22 @@ public class LoginActivity extends AppCompatActivity {
                 login(username,password);
             }
         });
+        tvSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(i);
+            }
+        });
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+            finish();
+        } else {
+            // show the signup or login screen
+        }
     }
 
     private void login(final String username, String password) {
@@ -60,4 +83,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
+
+
 }
